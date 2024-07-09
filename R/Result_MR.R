@@ -1,6 +1,6 @@
 
 
-Result_MR <- function (folder.path='',
+result_MR <- function (folder.path='',
                        exposure.name=''
                        ){
 # 指定本地文件夹路径

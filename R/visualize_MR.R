@@ -1,11 +1,6 @@
 
 #多轨热图绘制#
-library(ComplexHeatmap)
-library(data.table)
-library(tidyverse)
-library(circlize)
-library(dplyr)
-library(RColorBrewer)
+
 
 visualize_MR <-function(filename,
                         outcome.num=3,
@@ -18,11 +13,16 @@ visualize_MR <-function(filename,
                         threshold1=0.05,
                         threshold2=0.01,
                         category=T,
-                        group_colors=c('#CC88B0', '#DBE0ED', '#87B5B2', '#F4CEB4', '#F1DFA4', '#998DB7')
+                        category_colors=c('#CC88B0', '#DBE0ED', '#87B5B2', '#F4CEB4', '#F1DFA4', '#998DB7')
                         )
 {
 #假设有个热图的矩阵数据（这里仅为一组重复两次以作示范）
-
+  library(ComplexHeatmap)
+  library(data.table)
+  library(tidyverse)
+  library(circlize)
+  library(dplyr)
+  library(RColorBrewer)
 print('处理数据......')
 data=fread(filename)
 df=data %>% as.data.frame()#数据转化为数据框
@@ -139,7 +139,7 @@ if (outcome.num>3){
 if(category==T){
 # 创建行名分类信息与颜色的配对
 group_names <-  unique(df$category)
-group_colors <- group_colors
+group_colors <- category_colors
 
 # 创建命名向量将这两者配对
 row_colors <- setNames(group_colors, group_names)
