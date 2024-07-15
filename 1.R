@@ -1,7 +1,7 @@
 library(devtools)
 library(roxygen2)
 library(EZMR)
-install_github("Jun-shaw/EZMR")
+remotes::install_github("Jun-shaw/EZMR")
 usethis::use_r("Forest_plot_MR")
 devtools::load_all()
 filter_IVs(folder.path='',
@@ -19,7 +19,7 @@ filter_IVs(folder.path='',
            r2=0.001,
            Ffilter=10)
 
-Calculate_MR(folder.path='',
+calculate_MR(folder.path='',
              exposure.id=NA,#如果使用open GWAS数据则需要下列输入筛选条件
              Pfilter=5e-08,
              kb=10000,
@@ -29,9 +29,9 @@ Calculate_MR(folder.path='',
              valid=T,
              valid_threshold=0.05)
 
-Result_MR(folder.path = '',exposure.name='')
+result_MR(folder.path = '',exposure.name='')
 
-Visualize_MR(filename = 'data/前列腺炎增癌result.csv',
+visualize_MR(filename = 'data/前列腺炎增癌result.csv',
               outcome.num=3,
               outcome.name=c('A','B','C'),
               color1=c("#003399","#ffffff","#cc0033"),

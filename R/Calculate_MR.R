@@ -1,5 +1,13 @@
-library(MendelianRandomization)
-library(TwoSampleMR)
+#' Calculating the area under the curve after developing the category predictive model
+#'
+#' @param res.by.ML.Dev.Pred.Category.Sig  Output of function ML.Dev.Pred.Category.Sig
+#' @param cohort.for.cal A data frame with the 'ID' and 'Var' as the first two columns. Starting in the fourth column are the variables that contain variables of the model you want to build. The second column 'Var' only contains 'Y' or 'N'.
+#'
+#' @return A data frame containing the AUC of each predictive model.
+#' @export
+#'
+#' @examples
+#'
 calculate_MR <- function (folder.path='',
                           exposure.id=NA,#如果使用open GWAS数据则需要下列输入筛选条件
                           Pfilter=5e-08,
@@ -10,6 +18,8 @@ calculate_MR <- function (folder.path='',
                           valid=T,
                           valid_threshold=0.05)
 {
+  library(MendelianRandomization)
+  library(TwoSampleMR)
   if(!is.na(exposure.id)){
     for (i in exposure.id) {
       extract_instruments(outcomes=i,p<Pfilter,clump=TRUE, r2=r2,kb=kb,access_token= NULL)
