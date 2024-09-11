@@ -2,27 +2,50 @@
 % Please edit documentation in R/forest_plot_MR.R
 \name{forest_plot_MR}
 \alias{forest_plot_MR}
-\title{Calculating the area under the curve after developing the category predictive model}
+\title{Create a forest plot for the MR results.}
 \usage{
 forest_plot_MR(
   file = "",
-  column_num = 10,
-  shape_col = "#4575b4",
-  line_col = "#CE5C69",
-  text_col = "#4575b4",
-  P_threshold = 0.05,
-  OR_range = c(0, 2),
+  column.num = 10,
+  shape.col = "#4575b4",
+  line.col = "#CE5C69",
+  text.ol = "#4575b4",
+  P.threshold = 0.05,
+  OR.range = c(0, 2),
   cutoff = c(0, 1, 2)
 )
 }
 \arguments{
-\item{res.by.ML.Dev.Pred.Category.Sig}{Output of function ML.Dev.Pred.Category.Sig}
+\item{file}{The path to the input file.}
 
-\item{cohort.for.cal}{A data frame with the 'ID' and 'Var' as the first two columns. Starting in the fourth column are the variables that contain variables of the model you want to build. The second column 'Var' only contains 'Y' or 'N'.}
-}
-\value{
-A data frame containing the AUC of each predictive model.
+\item{cutoff}{A cutoff value for the odds ratio (OR)}
+
+\item{column_num}{The total number of columns in the input file.}
+
+\item{shape_col}{The column that defines the shape of the points in a plot}
+
+\item{line_col}{The column used to define the color or type of lines in a plot}
+
+\item{text_col}{The column that contains text labels for the points in the plot}
+
+\item{P_threshold}{The p-value threshold from Mendelian Randomization (MR) results, indicating whether there is a causal relationship between the exposure and outcome factors. A lower p-value suggests stronger evidence for causality.}
+
+\item{OR_range}{A range for odds ratios (OR) to filter results based on their effect size, which is a vector indicating the lower and upper bounds.}
 }
 \description{
-Calculating the area under the curve after developing the category predictive model
+Construct a forest plot to depict the results of the Mendelian Randomization (MR) analysis. This graphical representation should encapsulate the effect estimates along with their corresponding confidence intervals for each of the key variables. By elegantly illustrating both the magnitude and precision of the effects, the forest plot will provide a clear visual interpretation of the findings, allowing for an immediate grasp of the relationships under investigation.
+}
+\examples{
+forest_plot_MR (file='data/pca_result.csv',
+                column.num=10,
+                shape.col='#4575b4',
+                line.col='#CE5C69',
+                text.ol='#4575b4',
+                P.threshold=0.05,
+                OR.range = c(0,2),
+                cutoff = c(0,1,2))
+
+}
+\author{
+Junxiao Shen
 }

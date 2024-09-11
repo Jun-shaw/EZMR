@@ -1,50 +1,57 @@
-
-#' Calculating the area under the curve after developing the category predictive model
+#' @name result_MR
+#' @title Organize and export the MR results.
+#' @description Organize and export the results of the Mendelian Randomization (MR) analysis in a clear and structured manner. This involves collecting the key findings, such as effect estimates, confidence intervals, and p-values, and arranging them in a well-labeled table for easy interpretation.
 #'
-#' @param res.by.ML.Dev.Pred.Category.Sig  Output of function ML.Dev.Pred.Category.Sig
-#' @param cohort.for.cal A data frame with the 'ID' and 'Var' as the first two columns. Starting in the fourth column are the variables that contain variables of the model you want to build. The second column 'Var' only contains 'Y' or 'N'.
+#' @param folder.path Directory for storing MR results files.
+#' @param exposure.cat The category of the exposure factor.
+#' @param outcome.name The name of the outcome factor.
 #'
-#' @return A data frame containing the AUC of each predictive model.
+#' @author Junxiao Shen
+#' @examples
+#' result_MR (folder.path='MR_result/',
+#'            exposure.cat='Biomarkers'
+#'            outcome.name='PCA')
+#'
 #' @export
 #'
-#' @examples
-#'
 result_MR <- function (folder.path='',
-                       exposure.name=''
-                       ){
-# 指定本地文件夹路径
-folder_path <- folder.path
+                       exposure.cat='',
+                       outcome.name='')
+{
+  # Get the names of all .csv files in the specified folder
+  file_list <- list.files(path = folder.path, pattern = "\\.csv$", full.names = TRUE)
 
-# 获取文件夹中所有.gz文件的文件名
-file_list <- list.files(path = folder_path, pattern = "\\.csv$", full.names = TRUE)
+  # Display the list of file names
+  print(file_list)
 
-# 显示文件名列表
-print(file_list)
+  # Create an empty data frame to store results
+  result_df <- data.frame(matrix(ncol = 7, nrow = 0))
 
+  print('\n=> Looping through files and building data rows--------')
+  for (file in file_list) {
+    # Read the data from the file
+    data <- read.csv(file, header = TRUE, stringsAsFactors = FALSE)
 
-# 创建一个空的数据框用于存储结果
-result_df <- data.frame(matrix(ncol = 7, nrow = 0))
+    # Extract the required data
+    biomarkers <- data[data$method == "Inverse variance weighted", "id.exposure"]
+    IVW_OR <- data[data$method == "Inverse variance weighted", "or"]
+    MR_Egger_OR <- data[data$method == "MR Egger", "or"]
+    Weighted_median_OR <- data[data$method == "Penalised weighted median", "or"]
+    IVW_P <- data[data$method == "Inverse variance weighted", "pval"]
+    MR_Egger_P <- data[data$method == "MR Egger", "pval"]
+    Weighted_median_P <- data[data$method == "Penalised weighted median", "pval"]
 
-print('循环读取文件并建立数据行--------')
-for (file in file_list) {
-  # 读取文件数据
-  data <- read.csv(file, header = TRUE, stringsAsFactors = FALSE)
+    # Create a data row for the current file
+    row_data <- c(biomarkers, IVW_OR, MR_Egger_OR, Weighted_median_OR, IVW_P, MR_Egger_P, Weighted_median_P)
 
-  # 提取所需的数据
-  biomarkers <- data[data$method == "Inverse variance weighted", "id.exposure"]
-  IVW_OR <- data[data$method == "Inverse variance weighted", "or"]
-  MR_Egger_OR <- data[data$method == "MR Egger", "or"]
-  Weighted_median_OR <- data[data$method == "Penalised weighted median", "or"]
-  IVW_P <- data[data$method == "Inverse variance weighted", "pval"]
-  MR_Egger_P<- data[data$method == "MR Egger", "pval"]
-  Weighted_median_P<- data[data$method == "Penalised weighted median", "pval"]
-  # 创建当前文件的数据行
-  row_data <- c(biomarkers, IVW_OR, MR_Egger_OR, Weighted_median_OR, IVW_P,MR_Egger_P,Weighted_median_P)
+    # Add the data row to the result data frame
+    result_df <- rbind(result_df, row_data)
+  }
 
-  # 将数据行添加到结果数据框中
-  result_df <- rbind(result_df, row_data)
-}
-colnames(result_df) <- c(exposure.name, "IVW_OR", "MR_Egger_OR", "Weighted_median_OR",  "IVW_P",'MR_Egger_P','Weighted_median_P')
-print('打印结果数据框')
-write.csv(result_df, paste(exposure.name,"_result.csv"), row.names=F)
+  # Set the column names for the result data frame
+  colnames(result_df) <- c(exposure.cat, "IVW_OR", "MR_Egger_OR", "Weighted_median_OR", "IVW_P", 'MR_Egger_P', 'Weighted_median_P')
+
+  print('\n=> Printing the result data frame')
+  # Write the result data frame to a CSV file
+  write.csv(result_df, paste(outcome.name, "_all_result.csv"), row.names = FALSE)
 }

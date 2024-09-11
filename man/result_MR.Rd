@@ -2,18 +2,26 @@
 % Please edit documentation in R/result_MR.R
 \name{result_MR}
 \alias{result_MR}
-\title{Calculating the area under the curve after developing the category predictive model}
+\title{Organize and export the MR results.}
 \usage{
-result_MR(folder.path = "", exposure.name = "")
+result_MR(folder.path = "", exposure.cat = "", outcome.name = "")
 }
 \arguments{
-\item{res.by.ML.Dev.Pred.Category.Sig}{Output of function ML.Dev.Pred.Category.Sig}
+\item{folder.path}{Directory for storing MR results files.}
 
-\item{cohort.for.cal}{A data frame with the 'ID' and 'Var' as the first two columns. Starting in the fourth column are the variables that contain variables of the model you want to build. The second column 'Var' only contains 'Y' or 'N'.}
-}
-\value{
-A data frame containing the AUC of each predictive model.
+\item{exposure.cat}{The category of the exposure factor.}
+
+\item{outcome.name}{The name of the outcome factor.}
 }
 \description{
-Calculating the area under the curve after developing the category predictive model
+Organize and export the results of the Mendelian Randomization (MR) analysis in a clear and structured manner. This involves collecting the key findings, such as effect estimates, confidence intervals, and p-values, and arranging them in a well-labeled table for easy interpretation.
+}
+\examples{
+result_MR (folder.path='MR_result/',
+           exposure.cat='Biomarkers'
+           outcome.name='PCA')
+
+}
+\author{
+Junxiao Shen
 }

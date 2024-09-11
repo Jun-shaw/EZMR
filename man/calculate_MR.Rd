@@ -2,28 +2,57 @@
 % Please edit documentation in R/calculate_MR.R
 \name{calculate_MR}
 \alias{calculate_MR}
-\title{Calculating the area under the curve after developing the category predictive model}
+\title{Calculate mendelian randomization.}
 \usage{
 calculate_MR(
-  folder.path = "",
   exposure.id = NA,
+  folder.path = "",
   Pfilter = 5e-08,
   kb = 10000,
   r2 = 0.001,
   outcome.id = "",
   outcome.name = "",
-  valid = T,
-  valid_threshold = 0.05
+  valid = TRUE,
+  valid.threshold = 0.05
 )
 }
 \arguments{
-\item{res.by.ML.Dev.Pred.Category.Sig}{Output of function ML.Dev.Pred.Category.Sig}
+\item{exposure.id}{Acquire the GWAS project ID from the website https://gwas.mrcieu.ac.uk/.}
 
-\item{cohort.for.cal}{A data frame with the 'ID' and 'Var' as the first two columns. Starting in the fourth column are the variables that contain variables of the model you want to build. The second column 'Var' only contains 'Y' or 'N'.}
-}
-\value{
-A data frame containing the AUC of each predictive model.
+\item{folder.path}{This parameter typically refers to the path to the folder where data files are stored.}
+
+\item{Pfilter}{P-value filtering threshold, used to select significant SNPs. Only SNPs with P-values below this threshold are considered significantly associated.}
+
+\item{kb}{Kilobases, which may define the window size for analysis in the genome, often used in assessing associations of nearby SNPs.}
+
+\item{r2}{This represents the degree of linkage disequilibrium (LD) between SNPs, typically used to evaluate the correlation between SNPs. An r² value closer to 1 indicates a stronger association between two SNPs.}
+
+\item{outcome.id}{Acquire the GWAS project ID from the website https://gwas.mrcieu.ac.uk/.}
+
+\item{outcome.name}{The name of the outcome factor.}
+
+\item{valid}{This parameter is a logical variable that determines whether to conduct sensitivity validation.}
+
+\item{valid.threshold}{This parameter sets the significance threshold for sensitivity analysis.
+
+#' @references
+Verbanck M, Chen CY, Neale B, Do R. Detection of widespread horizontal pleiotropy in causal relationships inferred from Mendelian randomization between complex traits and diseases. Nat Genet. 2018 May;50(5):693-698. doi: 10.1038/s41588-018-0099-7. Epub 2018 Apr 23. Erratum in: Nat Genet. 2018 Aug;50(8):1196. doi: 10.1038/s41588-018-0164-2. PMID: 29686387; PMCID: PMC6083837.}
 }
 \description{
-Calculating the area under the curve after developing the category predictive model
+Numerous MR and sensitivity analyses are employed to validate causal inferences.
+}
+\examples{
+filter_IVs (exposure.id=NA, # Filter criteria required when using open GWAS data
+            folder.path='Instrumental_Variables/',
+            Pfilter=5e-08,
+            kb=10000,
+            r2=0.001,
+            outcome.id='',
+            outcome.name='',
+            valid=T,
+            valid.threshold=0.05)
+
+}
+\author{
+Junxiao Shen
 }

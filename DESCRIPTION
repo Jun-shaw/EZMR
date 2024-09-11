@@ -1,7 +1,7 @@
 Package: EZMR
 Type: Package
 Title: An efficient package for conducting multigroup Mendelian randomization analysis
-Version: 0.0.1
+Version: 0.1.0
 Authors@R: 
     person(
     	given="Junxiao", 

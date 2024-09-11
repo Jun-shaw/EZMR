@@ -2,7 +2,7 @@
 % Please edit documentation in R/filter_IVs.R
 \name{filter_IVs}
 \alias{filter_IVs}
-\title{Calculating the area under the curve after developing the category predictive model}
+\title{Refining instrumental variables for exposure factors.}
 \usage{
 filter_IVs(
   folder.path = "",
@@ -14,7 +14,7 @@ filter_IVs(
   other = "",
   P = "",
   EAF = "",
-  sample.num = 50000,
+  sample.num = 40000,
   Pfilter = 5e-08,
   kb = 10000,
   r2 = 0.001,
@@ -22,13 +22,55 @@ filter_IVs(
 )
 }
 \arguments{
-\item{res.by.ML.Dev.Pred.Category.Sig}{Output of function ML.Dev.Pred.Category.Sig}
+\item{folder.path}{This parameter typically refers to the path to the folder where data files are stored.}
 
-\item{cohort.for.cal}{A data frame with the 'ID' and 'Var' as the first two columns. Starting in the fourth column are the variables that contain variables of the model you want to build. The second column 'Var' only contains 'Y' or 'N'.}
-}
-\value{
-A data frame containing the AUC of each predictive model.
+\item{file.type}{This indicates the format of the input files (e.g., CSV, gz), which is necessary for correctly reading the data.}
+
+\item{SNP}{This refers to Single Nucleotide Polymorphisms, which are variations at a single nucleotide position in the genome.}
+
+\item{beta}{This parameter usually represents the effect size of the SNP on the trait, indicating the magnitude of the SNP's influence on the phenotype. It is often the regression coefficient in a linear regression model.}
+
+\item{se}{Standard Error, which measures the precision of the beta estimate. A smaller standard error indicates a more reliable estimate of the effect size.}
+
+\item{effect}{This parameter indicates the allele (variant) that is associated with an increase in the risk of the trait or disease being studied. It is the allele whose presence is linked to a higher value of the outcome variable (e.g., increased disease risk or trait value). .}
+
+\item{other}{This parameter represents the allele that is considered the alternative or non-risk allele in comparison to the effect_allele.exposure. While the effect allele is associated with an increase in the trait or disease risk, the other allele is typically associated with a lower risk or a different phenotype.}
+
+\item{P}{The P-value, used to assess the significance of the association between the SNP and the trait. Smaller P-values indicate stronger statistical significance.}
+
+\item{sample.num}{Sample size, which refers to the number of individuals used in the GWAS analysis. Larger sample sizes generally increase the statistical power of the results.}
+
+\item{Pfilter}{P-value filtering threshold, used to select significant SNPs. Only SNPs with P-values below this threshold are considered significantly associated.}
+
+\item{kb}{Kilobases, which may define the window size for analysis in the genome, often used in assessing associations of nearby SNPs.}
+
+\item{r2}{This represents the degree of linkage disequilibrium (LD) between SNPs, typically used to evaluate the correlation between SNPs. An r² value closer to 1 indicates a stronger association between two SNPs.}
+
+\item{Ffilter}{F-statistic filtering, often used to assess whether SNPs have sufficient variability in a specific sample. SNPs with higher F-values are generally considered more reliable.
+
+#' @references
+Hemani G, Zheng J, Elsworth B, Wade KH, Baird D, Haberland V, Laurin C, Burgess S, Bowden J, Langdon R, Tan VY, Yarmolinsky J, Shihab HA, Timpson NJ, Evans DM, Relton C, Martin RM, Davey Smith G, Gaunt TR, Haycock PC, The MR-Base Collaboration. The MR-Base platform supports systematic causal inference across the human phenome. eLife 2018;7:e34408. doi: 10.7554/eLife.34408}
 }
 \description{
-Calculating the area under the curve after developing the category predictive model
+Enhancing the instrumental variables pertinent to exposure factors is essential for ensuring robust and reliable analysis. This refinement process entails carefully selecting and fine-tuning the variables that serve as the instruments, thereby bolstering their validity and effectiveness in elucidating the causal relationships within the study. Such meticulous attention to detail will ultimately yield more accurate and insightful conclusions concerning the impact of exposure factors on the outcomes of interest.
+}
+\examples{
+filter_IVs (folder.path='document/',
+            file.type='.gz',
+            SNP='SNP',
+            beta='beta.exposure',
+            se='se.exposure',
+            effect='effect_allele.exposure',
+            other='other_allele.exposure',
+            P='pval.exposure',
+            EAF='eaf.exposure',
+            sample.num=40000,
+            Pfilter=5e-08,
+            kb=10000,
+            r2=0.001,
+            Ffilter=10)
+
+}
+\author{
+Junxiao Shen
 }

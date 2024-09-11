@@ -2,10 +2,10 @@
 % Please edit documentation in R/visualize_MR.R
 \name{visualize_MR}
 \alias{visualize_MR}
-\title{Calculating the area under the curve after developing the category predictive model}
+\title{The heatmap illustrates the results of the MR analysis.}
 \usage{
 visualize_MR(
-  filename,
+  file,
   outcome.num = 3,
   outcome.name = c("A", "B", "C"),
   color1 = c("#003399", "#ffffff", "#cc0033"),
@@ -16,17 +16,52 @@ visualize_MR(
   threshold1 = 0.05,
   threshold2 = 0.01,
   category = T,
-  category_colors = c("#CC88B0", "#DBE0ED", "#87B5B2", "#F4CEB4", "#F1DFA4", "#998DB7")
+  category.colors = c("#CC88B0", "#DBE0ED", "#87B5B2", "#F4CEB4", "#F1DFA4", "#998DB7")
 )
 }
 \arguments{
-\item{res.by.ML.Dev.Pred.Category.Sig}{Output of function ML.Dev.Pred.Category.Sig}
+\item{file}{Filename of the results after MR organization.}
 
-\item{cohort.for.cal}{A data frame with the 'ID' and 'Var' as the first two columns. Starting in the fourth column are the variables that contain variables of the model you want to build. The second column 'Var' only contains 'Y' or 'N'.}
-}
-\value{
-A data frame containing the AUC of each predictive model.
+\item{outcome.num}{The number of the outcome factor.}
+
+\item{outcome.name}{The name of the outcome factor.}
+
+\item{color1}{The gradient colors of the first tier of the heat map.}
+
+\item{color2}{The gradient colors of the second tier of the heat map.}
+
+\item{color3}{The gradient colors of the third tier of the heat map.}
+
+\item{color4}{The gradient colors of the forth tier of the heat map.}
+
+\item{range}{Color range of the heatmap.}
+
+\item{threshold1}{The primary criterion for significance values.}
+
+\item{threshold2}{The secondary criterion for significance values.}
+
+\item{category}{Logical variables that ascertain the presence of diverse categories of exposure factors.}
+
+\item{category.colors}{Colors of various classifications.}
 }
 \description{
-Calculating the area under the curve after developing the category predictive model
+The heatmap visually represents the outcomes of the Mendelian Randomization (MR) analysis, providing a comprehensive overview of the relationships and effects observed in the study. Through this colorful graphical display, one can easily discern patterns, correlations, and variations among the different variables examined, enhancing the clarity and interpretability of the results.
+}
+\examples{
+visualize_MR (file='data/all_result.csv',
+             outcome.num=3,
+             outcome.name=c('A','B','C'),
+             color1=c("#003399","#ffffff","#cc0033"),
+             color2=c( "#663366", "#ffffff","#ff9933"),
+             color3=c( "#cccc00", "#ffffff", "#66cc99"),
+             color4=NA,
+             range=c(0.5, 1, 2),
+             threshold1=0.05,
+             threshold2=0.01,
+             category=T,
+             category.colors=c('#CC88B0', '#DBE0ED', '#87B5B2', '#F4CEB4', '#F1DFA4', '#998DB7'))
+
+}
+\author{
+Junxiao Shen
 }
